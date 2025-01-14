@@ -33,6 +33,10 @@ Create a `.env` file in the `fastapi` directory containing your OpenAI API Key:
 ```env
 MY_OPENAI_API_KEY=your_openai_api_key_here
 DB=clickhouse
+CLICKHOUSE_HOST=your_clickhouse_host_here
+CLICKHOUSE_PORT=your_clickhouse_port_here
+CLICKHOUSE_USER=your_clickhouse_user_here
+CLICKHOUSE_PASSWORD=your_clickhouse_password_here
 ```
 
 You can use the `cat` command to create the `.env` file:
@@ -41,6 +45,10 @@ You can use the `cat` command to create the `.env` file:
 cat > ./fastapi/.env <<EOL
 MY_OPENAI_API_KEY=your_openai_api_key_here
 DB=clickhouse
+CLICKHOUSE_HOST=your_clickhouse_host_here
+CLICKHOUSE_PORT=your_clickhouse_port_here
+CLICKHOUSE_USER=your_clickhouse_user_here
+CLICKHOUSE_PASSWORD=your_clickhouse_password_here
 EOL
 ```
 
