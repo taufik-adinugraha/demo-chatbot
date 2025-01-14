@@ -20,15 +20,16 @@ app = FastAPI()
 class ChatRequest(BaseModel):
     query: str
     language: str
-    response_type: str
-    number_of_sections: int | None = None
+
+class ReportRequest(BaseModel):
+    language: str
 
 # Response model for the SQL syntax
 class SQLresponse(BaseModel):
     sql_syntax: str
 
 if db == "clickhouse":
-    host = os.getenv("CLICKHOUSE_HOST")
-    port = os.getenv("CLICKHOUSE_PORT")
-    user = os.getenv("CLICKHOUSE_USER")
-    password = os.getenv("CLICKHOUSE_PASSWORD")
+    clickhouse_host = os.getenv("CLICKHOUSE_HOST")
+    clickhouse_port = os.getenv("CLICKHOUSE_PORT")
+    clickhouse_user = os.getenv("CLICKHOUSE_USER")
+    clickhouse_password = os.getenv("CLICKHOUSE_PASSWORD")

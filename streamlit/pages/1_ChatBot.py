@@ -21,7 +21,7 @@ st.set_page_config(
 
 # URL for the API endpoint
 load_dotenv()
-url = os.getenv("backend_url")
+url = os.getenv("backend_url") + "/api_chat"
 
 
 # Function to load Lottie animation from a JSON file
@@ -96,7 +96,7 @@ with st.container():
             prompt = question
             if prompt:
                 # Update the payload with the history
-                payload = { "query": prompt, "language": language, "response_type": "chat"}
+                payload = { "query": prompt, "language": language}
 
                 # Initialize messages if not exists
                 if 'messages' not in st.session_state:
@@ -143,7 +143,6 @@ if prompt := st.chat_input("Question?"):
     payload = {
         "query": prompt,
         "language": language,
-        "response_type": "chat"
     }
 
     st.session_state.messages.append({"role": "user", "content": prompt})

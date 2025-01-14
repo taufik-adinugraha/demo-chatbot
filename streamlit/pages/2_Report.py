@@ -5,7 +5,6 @@ import pandas as pd
 import streamlit as st
 from dotenv import load_dotenv
 from streamlit_lottie import st_lottie_spinner
-from report_queries import list_of_queries
 
 import warnings
 warnings.filterwarnings("ignore", category=UserWarning, message=".*FigureCanvasAgg is non-interactive.*")
@@ -22,7 +21,7 @@ st.set_page_config(
 
 # URL for the API endpoint
 load_dotenv()
-url = os.getenv("backend_url")
+url = os.getenv("backend_url") + "/api_report"
 
 
 # Function to load Lottie animation from a JSON file
@@ -66,23 +65,21 @@ with st.container():
     # Single Generate Report button
     if st.button("Generate Report"):
 
-        for query in list_of_queries:
+        # Update the payload
+        payload = {"language": language}
 
-            # Update the payload
-            payload = {"query": query, "language": language, "response_type": "report", "number_of_sections": len(list_of_queries)}
+        message_placeholder = st.empty()
 
-            message_placeholder = st.empty()
-
-            with st_lottie_spinner(lottie, height=60):
-                with requests.post(url, json=payload, stream=True) as response:
-                    if response.status_code == 200:
-                        accumulated_response = ""
-                        for chunk in response.iter_content(chunk_size=1024):
-                            if chunk:
-                                decoded_chunk = chunk.decode('utf-8')
-                                accumulated_response += decoded_chunk
-                                message_placeholder.markdown(accumulated_response + "▌", unsafe_allow_html=True)
-                        
-                        message_placeholder.markdown(accumulated_response, unsafe_allow_html=True)
-                    else:
-                        st.error(f"Error: {response.status_code}")
+        with st_lottie_spinner(lottie, height=60):
+            with requests.post(url, json=payload, stream=True) as response:
+                if response.status_code == 200:
+                    accumulated_response = ""
+                    for chunk in response.iter_content(chunk_size=1024):
+                        if chunk:
+                            decoded_chunk = chunk.decode('utf-8')
+                            accumulated_response += decoded_chunk
+                            message_placeholder.markdown(accumulated_response + "▌", unsafe_allow_html=True)
+                    
+                    message_placeholder.markdown(accumulated_response, unsafe_allow_html=True)
+                else:
+                    st.error(f"Error: {response.status_code}")
