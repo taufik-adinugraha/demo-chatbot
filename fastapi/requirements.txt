@@ -1,0 +1,12 @@
+fastapi
+openai
+uvicorn
+python-dotenv
+pydantic
+typing
+pandas
+numpy
+openpyxl
+google-generativeai
+sqlalchemy
+db-sqlite3
