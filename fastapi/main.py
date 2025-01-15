@@ -155,13 +155,12 @@ async def api_report(request: ReportRequest):
                 query_response = openai_client.beta.chat.completions.parse(
                     model='gpt-4o',
                     messages=[{"role": "system", "content": sql_generation_prompt}],
-                    temperature=0.7,
+                    temperature=0.,
                     response_format=SQLresponse, # Use structured output
                 )
                 
                 # Extract the SQL syntax from the response
                 sql_syntax = query_response.choices[0].message.parsed.sql_syntax
-                print(sql_syntax)
                 
                 # Execute generated query
                 if db_type == "sqlite":
