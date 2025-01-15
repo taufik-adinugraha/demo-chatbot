@@ -68,23 +68,23 @@ with st.container():
         possible_questions = [
             "What is the total power usage for each region in the last 30 days?",
             "What is the average usage for each region over the last week?",
-            "Which building type has the highest total usage for the current month?",
-            "For device with id 11, what were the minimum, maximum, and average usage from 2025-01-01 to 2025-01-07?",
+            "What building types that has the highest total usage for the current month?",
+            "For device with id 11, what were the minimum, maximum, and average usage from 2025-01-01 to 2025-01-10?",
             "Which 5 devices consumed the most power during the last month?",
-            "For customer with id 3707, how is the daily usage distributed across all devices for the current week?",
-            "What date was the highest usage recorded for device id 33 this month?",
-            "Show bottom 5 customers with the lowest usage for the last 30 days?"
+            "For customer with id 7, how is the daily usage distributed across all devices for the current week?",
+            "What date was the highest usage recorded for device id 5 this month?",
+            "Show bottom 5 customers with the lowest usage for the last 30 days? Show the region and building type."
         ]
     else:
         possible_questions = [
             "Berapa total penggunaan daya untuk setiap wilayah dalam 30 hari terakhir?",
             "Berapa rata-rata penggunaan untuk setiap wilayah dalam 7 hari terakhir?",
-            "Jenis bangunan apa yang memiliki penggunaan daya tertinggi untuk bulan ini?",
-            "Untuk perangkat dengan id 11, berapa penggunaan minimum, maksimum, dan rata-rata dari 2025-01-01 hingga 2025-01-07?",
+            "Jenis bangunan apa saja yang memiliki penggunaan daya tertinggi untuk bulan ini?",
+            "Untuk perangkat dengan id 11, berapa penggunaan minimum, maksimum, dan rata-rata dari 2025-01-01 hingga 2025-01-10?",
             "Tunjukkan 5 perangkat yang paling banyak menggunakan daya dalam 1 bulan terakhir?",
-            "Untuk pelanggan dengan id 3707, bagaimana distribusi penggunaan daya harian di semua perangkat untuk minggu ini?",
-            "Pada tanggal berapa penggunaan daya tertinggi tercatat untuk perangkat id 33 bulan ini?",
-            "Tampilkan 5 pelanggan terbawah dengan penggunaan terendah untuk 30 hari terakhir?"
+            "Untuk pelanggan dengan id 7, bagaimana distribusi penggunaan daya harian di semua perangkat untuk minggu ini?",
+            "Pada tanggal berapa penggunaan daya tertinggi tercatat untuk perangkat id 5 bulan ini?",
+            "Tampilkan 5 pelanggan terbawah dengan penggunaan terendah untuk 30 hari terakhir? Tampilkan juga wilayah dan jenis bangunannya."
         ]
 
     # Create a column layout for the buttons
