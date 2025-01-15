@@ -95,7 +95,7 @@ def main(n_devices=100, n_customers=20):
         ts_hour, device_id, customer_id, building_type, region,
         usage_count, usage_sum, usage_min, usage_max
     )
-    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);
+    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?);
     """
 
     # We'll collect rows in a list, then insert in bulk for performance
