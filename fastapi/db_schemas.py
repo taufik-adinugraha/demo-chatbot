@@ -38,6 +38,7 @@ PARTITION BY toYYYYMM(ts_hour)
 
 Notes:
 - For AggregateFunction types strictly use sumMerge(), countMerge(), minMerge(), maxMerge() functions instead of ordinary SQL syntax SUM(), COUNT(), MIN(), MAX() functions.
+- Note that all functions in Clickhouse are very case-sensitive.
 - device = alat/perangkat, region = wilayah/area
 - for queries related to date, use something like toDate('2025-01-15')
 - SQL multi-statements are not allowed
