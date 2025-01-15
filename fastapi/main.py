@@ -84,12 +84,12 @@ async def api_chat(request: ChatRequest):
         # Execute generated query
         if db == "sqlite":
             conn = sqlite3.connect("dummy_data.db")
+            results = pd.read_sql_query(sql_syntax, conn)
+            conn.close()
         elif db == "clickhouse":
-            conn = clickhouse_connect.get_client(host=clickhouse_host, port=clickhouse_port, user=clickhouse_user, password=clickhouse_password)
-        results = pd.read_sql_query(sql_syntax, conn)
-        
-        # Close the connection
-        conn.close()
+            client = clickhouse_connect.get_client(host=clickhouse_host, port=clickhouse_port, user=clickhouse_user, password=clickhouse_password)
+            results = client.query_df(sql_syntax)
+            client.close()
 
         if not results.empty:
             prompt = present_sql_results(results)
@@ -164,12 +164,12 @@ async def api_report(request: ReportRequest):
                 # Execute generated query
                 if db == "sqlite":
                     conn = sqlite3.connect("dummy_data.db")
+                    results = pd.read_sql_query(sql_syntax, conn)
+                    conn.close()
                 elif db == "clickhouse":
-                    conn = clickhouse_connect.get_client(host=clickhouse_host, port=clickhouse_port, user=clickhouse_user, password=clickhouse_password)
-                results = pd.read_sql_query(sql_syntax, conn)
-                
-                # Close the connection
-                conn.close()
+                    client = clickhouse_connect.get_client(host=clickhouse_host, port=clickhouse_port, user=clickhouse_user, password=clickhouse_password)
+                    results = client.query_df(sql_syntax)
+                    client.close()
 
                 if not results.empty:
                     prompt = present_sql_results(results)
