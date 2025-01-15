@@ -39,7 +39,8 @@ PARTITION BY toYYYYMM(ts_hour)
 Notes:
 - Use sumMerge(), countMerge(), minMerge(), maxMerge() functions to replace ordinary sum(), count(), min(), max() functions for AggregateFunction types.
 - device = alat/perangkat, region = wilayah/area
-- for date use something like toYYYYMM(toDate('2025-01-15'))
+- for queries related to date, use something like toDate('2025-01-15')
+- SQL multi-statements are not allowed
 """
 
 

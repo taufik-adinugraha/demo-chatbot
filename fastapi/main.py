@@ -18,8 +18,9 @@ def get_system_instructions(table_schemas: str, language: str, response_type: st
         You are a data analyst, providing a help for user in providing insights from database with friendly and casual tone.
         Use simple, clear text for explanation. For headers, use <b><span style="color:#5772f9; font-size:18px;">some text</span></b>, do not use heading tags.
         Use <b><span style="color:#900C3F ;">some text or numbers</span></b> to highlight numbers and important information.
-        Table schemas:
+        ### Table schemas: ###
         {table_schemas}
+        ### End of table schemas ###
         Always generate response in {language} language.
         Do not proceed if the query is not related to the insights from the database (mention to user what kind of data can be retrieved from the database).
         """
