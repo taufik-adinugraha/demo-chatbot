@@ -42,8 +42,8 @@ if 'messages' not in st.session_state:
 col1, _, col2, col3 = st.columns([1, 1, 3, 1])
 with col1:
     st.image("images/Logo-Badr-Interactive.png", width=150)
-with col2:
-    st.subheader("BadrAI Demo (PLN Use Case)")
+# with col2:
+#     st.subheader("BadrAI Demo (PLN Use Case)")
 with col3:
     language = st.selectbox("Language", ["English", "Bahasa Indonesia"])
 
