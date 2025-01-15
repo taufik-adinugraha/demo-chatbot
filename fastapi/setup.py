@@ -8,7 +8,7 @@ from pydantic import BaseModel
 dotenv.load_dotenv()
 
 # Database
-db = os.getenv("DB")
+db_type = os.getenv("DB_TYPE")
 
 # Initialize OpenAI client
 openai_client = OpenAI(api_key=os.getenv("MY_OPENAI_API_KEY"))
@@ -28,7 +28,7 @@ class ReportRequest(BaseModel):
 class SQLresponse(BaseModel):
     sql_syntax: str
 
-if db == "clickhouse":
+if db_type == "clickhouse":
     clickhouse_host = os.getenv("CLICKHOUSE_HOST")
     clickhouse_port = os.getenv("CLICKHOUSE_PORT")
     clickhouse_user = os.getenv("CLICKHOUSE_USER")

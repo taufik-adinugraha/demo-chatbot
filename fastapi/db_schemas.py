@@ -14,7 +14,7 @@ table_schemas_sqlite = """
         usage_max     REAL NOT NULL
     );
 Notes:
-- device = alat/perangkat, customer = pelanggan, building_type = jenis bangunan, region = wilayah/area
+- device = alat/perangkat, region = wilayah/area
 """
 
 
@@ -38,7 +38,8 @@ PARTITION BY toYYYYMM(ts_hour)
 
 Notes:
 - Use sumMerge(), countMerge(), minMerge(), maxMerge() functions to replace ordinary sum(), count(), min(), max() functions for AggregateFunction types.
-- device = alat, customer = pelanggan, building_type = jenis bangunan, region = wilayah/area
+- device = alat/perangkat, region = wilayah/area
+- for date use something like toYYYYMM(toDate('2025-01-15'))
 """
 
 
@@ -47,4 +48,4 @@ table_schemas_map = {
     "clickhouse": table_schemas_clickhouse
 }
 
-table_schemas = table_schemas_map[db]
+table_schemas = table_schemas_map[db_type]
