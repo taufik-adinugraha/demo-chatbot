@@ -56,7 +56,7 @@ Create a `.env` file in the `streamlit` directory containing url to fastapi:
 
 ```bash
 cat > ./streamlit/.env <<EOL
-backend_url=http://chat_fastapi:8080
+backend_url=http://chat_fastapi:8081
 EOL
 ```
 
@@ -64,7 +64,7 @@ EOL
 
 ```bash
 # Run FastAPI container with .env file
-sudo docker run -d --network=mynetwork --name chat_fastapi --env-file ./fastapi/.env -p 8080:8080 chat_fastapi
+sudo docker run -d --network=mynetwork --name chat_fastapi --env-file ./fastapi/.env -p 8081:8081 chat_fastapi
 ```
 
 #### 5. Run Streamlit container

@@ -16,7 +16,7 @@ RUN apt-get update --fix-missing && \
 COPY . /app
 
 # Expose port
-EXPOSE 8080
+EXPOSE 8081
 
 # Run main.py when the container launches
-CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8080"]
+CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8081"]
