@@ -14,13 +14,15 @@ def generate_sql_syntax(question: str, db: str) -> str:
     Rules:
     1. Return ONLY the SQL query, nothing else
     2. Only use columns that exist in the schemas
-    3. Use proper SQL syntax for {db}
+    3. Strictly follow proper SQL syntax for this database type: {db}
     4. Anticipate typos by using LIKE operator
     5. Anticipate uppercase/lowercase issues by using LOWER() function
     6. Sort the results by most relevant columns first
     7. Round the results to 2 decimal places
     Given these {db} table schemas:
+    ### Table schemas: ###
     {table_schemas}
+    ### End of table schemas ###
     and current date: {datetime.now().strftime("%Y-%m-%d")}
     Generate a SQL query to answer this question: {question} by following the rules.
     """
