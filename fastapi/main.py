@@ -68,7 +68,7 @@ async def api_chat(request: ChatRequest):
 
         # print(f'Calling function: {tool_call.function.name}')
         
-        sql_generation_prompt = function_map[function_name](request.query, db)
+        sql_generation_prompt = function_map[function_name](request.query, db_type)
 
         # Generate SQL query using OpenAI
         query_response = openai_client.beta.chat.completions.parse(
@@ -82,11 +82,11 @@ async def api_chat(request: ChatRequest):
         sql_syntax = query_response.choices[0].message.parsed.sql_syntax
         
         # Execute generated query
-        if db == "sqlite":
+        if db_type == "sqlite":
             conn = sqlite3.connect("dummy_data.db")
             results = pd.read_sql_query(sql_syntax, conn)
             conn.close()
-        elif db == "clickhouse":
+        elif db_type == "clickhouse":
             clickhouse_client = clickhouse_connect.get_client(host=clickhouse_host, port=clickhouse_port, user=clickhouse_user, password=clickhouse_password)
             results = clickhouse_client.query_df(sql_syntax)
             clickhouse_client.close()
@@ -148,7 +148,7 @@ async def api_report(request: ReportRequest):
 
                 # print(f'Calling function: {tool_call.function.name}')
                 
-                sql_generation_prompt = function_map[function_name](query, db)
+                sql_generation_prompt = function_map[function_name](query, db_type)
 
                 # Generate SQL query using OpenAI
                 query_response = openai_client.beta.chat.completions.parse(
@@ -162,11 +162,11 @@ async def api_report(request: ReportRequest):
                 sql_syntax = query_response.choices[0].message.parsed.sql_syntax
                 
                 # Execute generated query
-                if db == "sqlite":
+                if db_type == "sqlite":
                     conn = sqlite3.connect("dummy_data.db")
                     results = pd.read_sql_query(sql_syntax, conn)
                     conn.close()
-                elif db == "clickhouse":
+                elif db_type == "clickhouse":
                     clickhouse_client = clickhouse_connect.get_client(host=clickhouse_host, port=clickhouse_port, user=clickhouse_user, password=clickhouse_password)
                     results = clickhouse_client.query_df(sql_syntax)
                     clickhouse_client.close()
