@@ -37,7 +37,7 @@ ENGINE = AggregatingMergeTree()
 PARTITION BY toYYYYMM(ts_hour)
 
 Notes:
-- Use sumMerge(), countMerge(), minMerge(), maxMerge() functions to replace ordinary sum(), count(), min(), max() functions for AggregateFunction types.
+- For AggregateFunction types strictly use sumMerge(), countMerge(), minMerge(), maxMerge() functions instead of ordinary SQL syntax SUM(), COUNT(), MIN(), MAX() functions.
 - device = alat/perangkat, region = wilayah/area
 - for queries related to date, use something like toDate('2025-01-15')
 - SQL multi-statements are not allowed

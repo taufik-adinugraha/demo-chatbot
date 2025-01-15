@@ -161,6 +161,7 @@ async def api_report(request: ReportRequest):
                 
                 # Extract the SQL syntax from the response
                 sql_syntax = query_response.choices[0].message.parsed.sql_syntax
+                print(sql_syntax)
                 
                 # Execute generated query
                 if db_type == "sqlite":
