@@ -8,6 +8,7 @@ from tools import *
 from setup import *
 from db_schemas import *
 from report_queries import *
+from clickhouse_connect import get_client
 
 ######################################################## Initialization
 # System instructions

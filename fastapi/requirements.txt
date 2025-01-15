@@ -10,3 +10,4 @@ openpyxl
 google-generativeai
 sqlalchemy
 db-sqlite3
+clickhouse-connect
