@@ -139,8 +139,6 @@ def main(n_devices=100, n_customers=20):
                 device_id,
                 customer_id,
                 building_type,
-                latitude,
-                longitude,
                 region,
                 usage_count,
                 round(usage_sum, 3),  # round for neatness
