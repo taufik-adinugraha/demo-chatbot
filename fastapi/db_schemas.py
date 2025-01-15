@@ -7,14 +7,14 @@ table_schemas_sqlite = """
         device_id     INTEGER NOT NULL,
         customer_id   TEXT NOT NULL,
         building_type TEXT NOT NULL,
-        latitude      REAL NOT NULL,
-        longitude     REAL NOT NULL,
         region        TEXT NOT NULL,
         usage_count   INTEGER NOT NULL,
         usage_sum     REAL NOT NULL,
         usage_min     REAL NOT NULL,
         usage_max     REAL NOT NULL
     );
+Notes:
+- device = alat/perangkat, customer = pelanggan, building_type = jenis bangunan, region = wilayah/area
 """
 
 
@@ -28,8 +28,6 @@ CREATE TABLE layer_4.power_agg_stats
     customer_id     String,
     building_type   String,
     region          String,
-    latitude        Float64,
-    longitude       Float64,
     usage_count     AggregateFunction(count, Float64),
     usage_sum       AggregateFunction(sum, Float64),
     usage_min       AggregateFunction(min, Float64),
@@ -39,7 +37,8 @@ ENGINE = AggregatingMergeTree()
 PARTITION BY toYYYYMM(ts_hour)
 
 Notes:
-Use sumMerge(), countMerge(), minMerge(), maxMerge() functions to replace ordinary sum(), count(), min(), max() functions for AggregateFunction types.
+- Use sumMerge(), countMerge(), minMerge(), maxMerge() functions to replace ordinary sum(), count(), min(), max() functions for AggregateFunction types.
+- device = alat, customer = pelanggan, building_type = jenis bangunan, region = wilayah/area
 """
 
 
