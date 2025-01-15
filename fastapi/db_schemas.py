@@ -19,17 +19,17 @@ table_schemas_sqlite = """
 
 
 table_schemas_clickhouse = """
-CREATE TABLE l4_power_agg_stats
+CREATE TABLE layer_4.power_agg_stats
 (
     ts_hour         DateTime,
-    device_id       UInt32,
+    day_of_week     String,
+    hour_of_day     Int16,
+    device_id       String,
     customer_id     String,
     building_type   String,
+    region          String,
     latitude        Float64,
     longitude       Float64,
-    region          String,
-
-    -- These fields store partial aggregation states for different metrics:
     usage_count     AggregateFunction(count, Float64),
     usage_sum       AggregateFunction(sum, Float64),
     usage_min       AggregateFunction(min, Float64),
