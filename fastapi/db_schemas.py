@@ -19,8 +19,8 @@ table_schemas_sqlite = """
 
 
 table_schemas_clickhouse = """
-TABLE: layer_4.power_agg_stats
-Fields:
+CREATE TABLE layer_4.power_agg_stats
+(
     ts_hour         DateTime,
     day_of_week     String,
     hour_of_day     Int16,
@@ -30,10 +30,16 @@ Fields:
     region          String,
     latitude        Float64,
     longitude       Float64,
-    usage_count     Float64,
-    usage_sum       Float64,
-    usage_min       Float64,
-    usage_max       Float64
+    usage_count     AggregateFunction(count, Float64),
+    usage_sum       AggregateFunction(sum, Float64),
+    usage_min       AggregateFunction(min, Float64),
+    usage_max       AggregateFunction(max, Float64)
+)
+ENGINE = AggregatingMergeTree()
+PARTITION BY toYYYYMM(ts_hour)
+
+Notes:
+Use sumMerge(), countMerge(), minMerge(), maxMerge() functions to replace ordinary sum(), count(), min(), max() functions for AggregateFunction types.
 """
 
 
