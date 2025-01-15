@@ -2,16 +2,16 @@ from setup import *
 
 table_schemas_sqlite = """
     CREATE TABLE IF NOT EXISTS l4_power_agg_stats (
-        id            INTEGER PRIMARY KEY AUTOINCREMENT,
-        ts_hour       TEXT NOT NULL,
-        device_id     INTEGER NOT NULL,
-        customer_id   TEXT NOT NULL,
-        building_type TEXT NOT NULL,
-        region        TEXT NOT NULL,
-        usage_count   INTEGER NOT NULL,
-        usage_sum     REAL NOT NULL,
-        usage_min     REAL NOT NULL,
-        usage_max     REAL NOT NULL
+        id            INTEGER,
+        ts_hour       TEXT,
+        device_id     INTEGER,
+        customer_id   TEXT,
+        building_type TEXT,
+        region        TEXT,
+        usage_count   INTEGER,
+        usage_sum     REAL,
+        usage_min     REAL,
+        usage_max     REAL
     );
 Notes:
 - device = alat/perangkat, region = wilayah/area

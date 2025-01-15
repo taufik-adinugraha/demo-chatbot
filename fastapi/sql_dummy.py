@@ -22,8 +22,6 @@ def main(n_devices=100, n_customers=20):
         device_id     INTEGER NOT NULL,
         customer_id   INTEGER NOT NULL,
         building_type TEXT NOT NULL,
-        latitude      REAL NOT NULL,
-        longitude     REAL NOT NULL,
         region        TEXT NOT NULL,
         usage_count   INTEGER NOT NULL,
         usage_sum     REAL NOT NULL,
@@ -39,8 +37,8 @@ def main(n_devices=100, n_customers=20):
     # 3) Prepare your dummy data parameters
     # -----------------------------------------------
     # Let's define a start_date (inclusive) and end_date (exclusive) for 1 year
-    start_date = datetime(2024, 1, 1, 0, 0, 0)
-    end_date   = datetime(2025, 1, 25, 0, 0, 0)
+    start_date = datetime(2024, 5, 1, 0, 0, 0)
+    end_date   = datetime(2025, 1, 30, 0, 0, 0)
 
     # Hourly increments
     delta = timedelta(hours=1)
@@ -51,14 +49,50 @@ def main(n_devices=100, n_customers=20):
     building_types = ["Rumah", "Kantor", "Pabrik", "Rumah Sakit", "Sekolah", "Ruko"]
     regions = ["Jakarta", "Bogor", "Depok", "Tangerang", "Bekasi"]
 
+    # Add these functions at the start of main(), before the database connection
+    def get_region_multiplier(region):
+        # Jakarta and Tangerang have higher power usage
+        multipliers = {
+            "Jakarta": 2.5,
+            "Tangerang": 1.8,
+            "Bekasi": 1.2,
+            "Bogor": 1.0,
+            "Depok": 1.0
+        }
+        return multipliers.get(region, 1.0)
+
+    def get_time_multiplier(timestamp):
+        hour = timestamp.hour
+        weekday = timestamp.weekday()  # 0-6 (Monday-Sunday)
+        
+        # Base multiplier for day/night
+        if 8 <= hour <= 17:  # Daytime hours
+            time_mult = 1.5
+        elif 18 <= hour <= 22:  # Evening hours
+            time_mult = 1.2
+        else:  # Night hours
+            time_mult = 0.6
+            
+        # Weekend adjustment for commercial buildings
+        is_weekday = weekday < 5
+        return time_mult, is_weekday
+
+    def get_building_multiplier(building_type, is_weekday):
+        if building_type in ["Kantor", "Pabrik", "Sekolah", "Ruko"]:
+            return 1.5 if is_weekday else 0.2
+        return 1.0
+
+    # Create high usage entities
+    high_usage_devices = random.sample(devices, int(n_devices * 0.1))  # 10% of devices
+    high_usage_customers = random.sample(customers, int(n_customers * 0.15))  # 15% of customers
+
     # -----------------------------------------------
     # 4) Generate and insert data hour by hour
     # -----------------------------------------------
     current_ts = start_date
     insert_sql = """
     INSERT INTO l4_power_agg_stats (
-        ts_hour, device_id, customer_id, building_type,
-        latitude, longitude, region,
+        ts_hour, device_id, customer_id, building_type, region,
         usage_count, usage_sum, usage_min, usage_max
     )
     VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);
@@ -75,15 +109,27 @@ def main(n_devices=100, n_customers=20):
             building_type = random.choice(building_types)
             region        = random.choice(regions)
 
-            # For demo, pick a random lat/long near some general area
-            latitude  = random.uniform(30.0, 45.0)
-            longitude = random.uniform(-120.0, -80.0)
+            # Apply multipliers
+            region_mult = get_region_multiplier(region)
+            time_mult, is_weekday = get_time_multiplier(current_ts)
+            building_mult = get_building_multiplier(building_type, is_weekday)
+            
+            # Additional multiplier for high-usage entities
+            entity_mult = 1.0
+            if device_id in high_usage_devices:
+                entity_mult *= random.uniform(2.0, 3.0)
+            if customer_id in high_usage_customers:
+                entity_mult *= random.uniform(1.5, 2.5)
 
-            # Usage metrics
+            # Usage metrics with multipliers
             usage_count = random.randint(1, 100)
-            # usage_min < usage_max, usage_sum ~ usage_count * average usage
-            usage_min = random.uniform(0.0, 2.0)
-            usage_max = usage_min + random.uniform(0.1, 5.0)
+            base_min = random.uniform(0.0, 2.0)
+            base_max = base_min + random.uniform(0.1, 5.0)
+            
+            # Apply all multipliers to the usage values
+            total_mult = region_mult * time_mult * building_mult * entity_mult
+            usage_min = base_min * total_mult
+            usage_max = base_max * total_mult
             avg_usage = (usage_min + usage_max) / 2
             usage_sum = usage_count * avg_usage
 
@@ -125,4 +171,4 @@ def main(n_devices=100, n_customers=20):
 
 
 if __name__ == "__main__":
-    main(n_devices=100, n_customers=20)
+    main(n_devices=200, n_customers=50)
