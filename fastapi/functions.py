@@ -14,7 +14,7 @@ def generate_sql_syntax(question: str, db: str) -> str:
     Rules:
     1. Return ONLY the SQL query, nothing else
     2. Only use columns that exist in the schemas
-    3. Strictly follow proper SQL syntax for this database type: {db}
+    3. Only use proper valid syntax for this database type: {db}
     4. Anticipate typos by using LIKE operator
     5. Anticipate uppercase/lowercase issues by using LOWER() function
     6. Sort the results by most relevant columns first
