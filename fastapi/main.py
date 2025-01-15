@@ -52,7 +52,7 @@ async def api_chat(request: ChatRequest):
     messages.append({"role": "user", "content": request.query})
     
     # Call OpenAI API
-    response_tool_call = client.chat.completions.create(
+    response_tool_call = openai_client.chat.completions.create(
         model="gpt-4o",
         messages=messages,
         tools=tools, # Use function calling
@@ -71,7 +71,7 @@ async def api_chat(request: ChatRequest):
         sql_generation_prompt = function_map[function_name](request.query, db)
 
         # Generate SQL query using OpenAI
-        query_response = client.beta.chat.completions.parse(
+        query_response = openai_client.beta.chat.completions.parse(
             model='gpt-4o',
             messages=[{"role": "system", "content": sql_generation_prompt}],
             temperature=0.7,
@@ -87,9 +87,9 @@ async def api_chat(request: ChatRequest):
             results = pd.read_sql_query(sql_syntax, conn)
             conn.close()
         elif db == "clickhouse":
-            client = clickhouse_connect.get_client(host=clickhouse_host, port=clickhouse_port, user=clickhouse_user, password=clickhouse_password)
-            results = client.query_df(sql_syntax)
-            client.close()
+            clickhouse_client = clickhouse_connect.get_client(host=clickhouse_host, port=clickhouse_port, user=clickhouse_user, password=clickhouse_password)
+            results = clickhouse_client.query_df(sql_syntax)
+            clickhouse_client.close()
 
         if not results.empty:
             prompt = present_sql_results(results)
@@ -100,7 +100,7 @@ async def api_chat(request: ChatRequest):
     try:
         def data_generator():
             # Call the OpenAI API
-            response = client.chat.completions.create(
+            response = openai_client.chat.completions.create(
                 model="gpt-4o",
                 messages=messages,
                 temperature=1,
@@ -133,7 +133,7 @@ async def api_report(request: ReportRequest):
             messages.append({"role": "user", "content": query})
 
             # Call OpenAI API for tool calling
-            response_tool_call = client.chat.completions.create(
+            response_tool_call = openai_client.chat.completions.create(
                 model="gpt-4o",
                 messages=messages,
                 tools=tools,
@@ -151,7 +151,7 @@ async def api_report(request: ReportRequest):
                 sql_generation_prompt = function_map[function_name](query, db)
 
                 # Generate SQL query using OpenAI
-                query_response = client.beta.chat.completions.parse(
+                query_response = openai_client.beta.chat.completions.parse(
                     model='gpt-4o',
                     messages=[{"role": "system", "content": sql_generation_prompt}],
                     temperature=0.7,
@@ -167,9 +167,9 @@ async def api_report(request: ReportRequest):
                     results = pd.read_sql_query(sql_syntax, conn)
                     conn.close()
                 elif db == "clickhouse":
-                    client = clickhouse_connect.get_client(host=clickhouse_host, port=clickhouse_port, user=clickhouse_user, password=clickhouse_password)
-                    results = client.query_df(sql_syntax)
-                    client.close()
+                    clickhouse_client = clickhouse_connect.get_client(host=clickhouse_host, port=clickhouse_port, user=clickhouse_user, password=clickhouse_password)
+                    results = clickhouse_client.query_df(sql_syntax)
+                    clickhouse_client.close()
 
                 if not results.empty:
                     prompt = present_sql_results(results)
@@ -179,7 +179,7 @@ async def api_report(request: ReportRequest):
 
             try:
                 # Stream the response for this query
-                response = client.chat.completions.create(
+                response = openai_client.chat.completions.create(
                     model="gpt-4o",
                     messages=messages,
                     temperature=1,

@@ -11,7 +11,7 @@ dotenv.load_dotenv()
 db = os.getenv("DB")
 
 # Initialize OpenAI client
-client = OpenAI(api_key=os.getenv("MY_OPENAI_API_KEY"))
+openai_client = OpenAI(api_key=os.getenv("MY_OPENAI_API_KEY"))
 
 # FastAPI app
 app = FastAPI()
