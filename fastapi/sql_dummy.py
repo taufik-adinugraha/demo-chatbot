@@ -37,8 +37,8 @@ def main(n_devices=100, n_customers=20):
     # 3) Prepare your dummy data parameters
     # -----------------------------------------------
     # Let's define a start_date (inclusive) and end_date (exclusive) for 1 year
-    start_date = datetime(2024, 5, 1, 0, 0, 0)
-    end_date   = datetime(2025, 1, 30, 0, 0, 0)
+    start_date = datetime(2024, 12, 1, 0, 0, 0)
+    end_date   = datetime(2025, 8, 30, 0, 0, 0)
 
     # Hourly increments
     delta = timedelta(hours=1)
@@ -57,7 +57,7 @@ def main(n_devices=100, n_customers=20):
             "Tangerang": 1.8,
             "Bekasi": 1.2,
             "Bogor": 1.0,
-            "Depok": 1.0
+            "Depok": 0.7
         }
         return multipliers.get(region, 1.0)
 
@@ -78,8 +78,8 @@ def main(n_devices=100, n_customers=20):
         return time_mult, is_weekday
 
     def get_building_multiplier(building_type, is_weekday):
-        if building_type in ["Kantor", "Pabrik", "Sekolah", "Ruko"]:
-            return 1.5 if is_weekday else 0.2
+        if building_type in ["Kantor", "Pabrik", "Sekolah"]:
+            return 1.0 if is_weekday else 0.1
         return 1.0
 
     # Create high usage entities
@@ -169,4 +169,4 @@ def main(n_devices=100, n_customers=20):
 
 
 if __name__ == "__main__":
-    main(n_devices=200, n_customers=50)
+    main()
